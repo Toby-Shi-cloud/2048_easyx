@@ -20,20 +20,24 @@ int value[4][4];//每个方格中的值
 int scr;//分数 
 
 //前置的函数声明 
-void begin();
-void print();
-bool mainloop();
-bool check();
-void over();
+void begin(); //游戏初始化 
+void print(); //输出整个4*4方阵 
+bool mainloop(); //主消息循环 
+void my_exit(); //玩家点击ESC键 
+bool check(); //检查是否GameOver 
+void over(); //游戏结束 
 
-//主函数(参数不起任何作用，但是我们需要它) 
-int main(int argc, char** argv)
+int main(int argc, char** argv) //主函数(参数不起任何作用，但是我们需要它) 
 {
-	srand(time(0));
-	begin();
-	while(mainloop());
-	over();
-	system("pause");
+	while(1){
+		srand(time(0)); /*随机数初始化*/ 
+		begin(); /*游戏初始化*/
+		while(mainloop()); /*主消息循环*/
+		over(); /*游戏结束*/ 
+		int result;
+		result = MessageBox(NULL, "Play again?", "2048", MB_YESNO | MB_ICONINFORMATION); /*是否再来一次*/
+	    if(result == IDNO) break;
+	}
 	return 0;
 }
 
@@ -74,8 +78,12 @@ bool mainloop()
 {
 	char ch;
 	ch = getch();
-	while(ch != -32) ch = getch();
+	while(ch != -32){
+		if(ch == 27) my_exit();
+		ch = getch();
+	}
 	ch = getch();
+	if(ch == 27) my_exit();
 	bool fg = 0;
 	switch(ch){
 		case UP:
@@ -137,6 +145,13 @@ bool mainloop()
 	return check();
 }
 
+void my_exit()
+{
+	int result;
+	result = MessageBox(NULL, "Are you sure to exit?\n(Your progress will not be saved!)", "2048", MB_YESNO | MB_ICONWARNING);
+	if(result == IDYES) exit(0);
+}
+
 bool check()
 {
 	for(int z = 0; z < 16; z++)
@@ -158,18 +173,17 @@ struct points{
 
 void over()
 {
-	printf("GameOver!!!\n");
-	Sleep(2000);
+	std::stringstream _ss_;
+	_ss_ << "GameOver!!!\n\nYour total score is " << scr << "!";
+	MessageBox(NULL, _ss_.str().c_str(), "2048", MB_OK | MB_ICONWARNING);
 	system("cls");
-	printf("GameOver!!!\n");
-	printf("Your total score is %d!\n", scr);
-	printf("Please input your name:\n\t");
-	std::string name;
-	std::cin >> name;
+	printf("Please input your name:\n");
 	CHAR my_documents[MAX_PATH];
     HRESULT result = SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, my_documents);
 	if (result != S_OK){
-        std::cout << "Error: " << result << "\n";
+		std::stringstream _s_s_;
+		_s_s_ << "Error: " << result;
+        MessageBox(NULL, _s_s_.str().c_str(), "2048", MB_OK | MB_ICONERROR);
         return;
 	}
 	std::stringstream ss;
@@ -183,7 +197,7 @@ void over()
     std::fstream frank(ss.str().c_str(), std::ios::in);
 	int cnt = 0;
 	while(frank >> person[cnt].name >> person[cnt].score) cnt++;
-	strcpy(person[cnt].name, name.c_str());
+	gets(person[cnt].name);
 	person[cnt].score = scr;
 	cnt++;
 	std::sort(person, person + cnt);
