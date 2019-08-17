@@ -35,7 +35,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="!2048.ico">
+    <Image Include="2048.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

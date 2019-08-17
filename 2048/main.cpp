@@ -11,6 +11,7 @@ void print();
 void mainloop();
 void gameover();
 bool check();
+void my_exit();
 
 int main()
 {
@@ -30,7 +31,7 @@ int main()
 		outtextxy(320 - 8 * 14, 420, "按下任意键退出");
 		_getch();
 
-		INT result = MessageBox(NULL, "再来一局？", "2048", MB_YESNO | MB_ICONINFORMATION);
+		INT result = MessageBox(NULL, "再来一局？", "2048", MB_YESNO | MB_ICONINFORMATION | MB_SYSTEMMODAL);
 		if (result == IDNO) {
 			break;
 		}
@@ -83,15 +84,11 @@ void mainloop()
 	while (1) {
 		ch = _getch();
 		while (ch != -32) {
-
-//			if (ch == 27) my_exit();
-
+			if (ch == 27) my_exit();
 			ch = _getch();
 		}
 		ch = _getch();
-
-//		if (ch == 27) my_exit();
-
+		if (ch == 27) my_exit();
 		bool fg = 0;
 		switch (ch) {
 		case UP:
@@ -185,7 +182,7 @@ void gameover()
 	if (result != S_OK) {
 		ss.clear();
 		ss << "Error: " << result << "\n";
-		MessageBox(nullptr, ss.str().c_str(), "2048", MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, ss.str().c_str(), "2048", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 		return;
 	}
 	Sleep(1500);
@@ -258,4 +255,9 @@ void gameover()
 	frank.open(ss.str().c_str(), std::ios::out);
 	for (int i = 0; i < cnt && i < 10; i++)
 		frank << person[i].name << " " << person[i].score << std::endl;
+}
+
+void my_exit() {
+	int result = MessageBox(NULL, "你真的要退出吗？\n（警告：你的进度将不会被保存）", "2048", MB_YESNO | MB_ICONWARNING | MB_SYSTEMMODAL);
+	if (result == IDYES) exit(0);
 }
