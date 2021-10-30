@@ -1,4 +1,4 @@
-#include "Resource.h"
+ï»¿#include "Resource.h"
 
 COLORREF get_color(int number)
 {
@@ -36,7 +36,7 @@ void color_test()
 	setlinecolor(BLACK);
 	setbkcolor(WHITE);
 	settextcolor(WHITE);
-	settextstyle(50, 0, "»ªÎÄçúçê");
+	settextstyle(50, 0, "åæ–‡ç¥ç€");
 	for (int i = 0; i < 12; i++) {
 		setfillcolor(get_color(2 << i));
 		fillrectangle(i % 4 * 160, i / 4 * 160, i % 4 * 160 + 160, i / 4 * 160 + 160);

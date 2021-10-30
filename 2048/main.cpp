@@ -1,11 +1,11 @@
-#pragma _CRT_SECURE_NO_WARNINGS
+ï»¿#pragma _CRT_SECURE_NO_WARNINGS
 #include "Resource.h"
 
-//È«¾Ö±äÁ¿µÄÉùÃ÷ 
-int value[4][4];//Ã¿¸ö·½¸ñÖĞµÄÖµ 
-int scr;//·ÖÊı 
+//å…¨å±€å˜é‡çš„å£°æ˜ 
+int value[4][4];//æ¯ä¸ªæ–¹æ ¼ä¸­çš„å€¼ 
+int scr;//åˆ†æ•° 
 
-//º¯ÊıµÄÇ°ÖÃÉùÃ÷
+//å‡½æ•°çš„å‰ç½®å£°æ˜
 void begin();
 void print();
 void mainloop();
@@ -27,11 +27,11 @@ int main()
 		mainloop();
 		gameover();
 
-		settextstyle(30, 0, "ĞÂËÎÌå");
-		outtextxy(320 - 8 * 14, 420, "°´ÏÂÈÎÒâ¼üÍË³ö");
+		settextstyle(30, 0, "æ–°å®‹ä½“");
+		outtextxy(320 - 8 * 14, 420, "æŒ‰ä¸‹ä»»æ„é”®é€€å‡º");
 		_getch();
 
-		INT result = MessageBox(NULL, "ÔÙÀ´Ò»¾Ö£¿", "2048", MB_YESNO | MB_ICONINFORMATION | MB_SYSTEMMODAL);
+		INT result = MessageBox(NULL, "å†æ¥ä¸€å±€ï¼Ÿ", "2048", MB_YESNO | MB_ICONINFORMATION | MB_SYSTEMMODAL);
 		if (result == IDNO) {
 			break;
 		}
@@ -60,10 +60,10 @@ void print() {
 	line(0, 0, 0, TITAL);
 	line(640, 0, 640, TITAL);
 	settextcolor(BLACK);
-	settextstyle(30, 0, "»ªÎÄçúçê");
-	outtextxyf(320 - 5 * get_length(scr) - 80, 10, "ÄãµÄµÃ·Ö£º%d", scr);
+	settextstyle(30, 0, "åæ–‡ç¥ç€");
+	outtextxyf(320 - 5 * get_length(scr) - 80, 10, "ä½ çš„å¾—åˆ†ï¼š%d", scr);
 	settextcolor(WHITE);
-	settextstyle(50, 0, "»ªÎÄçúçê");
+	settextstyle(50, 0, "åæ–‡ç¥ç€");
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++) {
 			if (~value[i][j]) {
@@ -96,8 +96,10 @@ void mainloop()
 				for (int i = 0; i < 4; i++) {
 					if (!~value[i][j]) for (int k = i + 1; k < 4; k++) if (~value[k][j]) { std::swap(value[i][j], value[k][j]); fg = 1; break; }
 					if (~value[i][j]) for (int k = i + 1; k < 4; k++) if (~value[k][j])
+					{
 						if (value[i][j] == value[k][j]) { value[i][j] <<= 1; fg = 1; scr += value[i][j]; value[k][j] = -1; }
-						else break;
+						break;
+					}
 				}
 			}break;
 		case DOWN:
@@ -105,8 +107,10 @@ void mainloop()
 				for (int i = 3; i >= 0; i--) {
 					if (!~value[i][j]) for (int k = i - 1; k >= 0; k--) if (~value[k][j]) { std::swap(value[i][j], value[k][j]); fg = 1; break; }
 					if (~value[i][j]) for (int k = i - 1; k >= 0; k--) if (~value[k][j])
+					{
 						if (value[i][j] == value[k][j]) { value[i][j] <<= 1; fg = 1; scr += value[i][j]; value[k][j] = -1; }
-						else break;
+						break;
+					}
 				}
 			}break;
 		case LEFT:
@@ -114,8 +118,10 @@ void mainloop()
 				for (int j = 0; j < 4; j++) {
 					if (!~value[i][j]) for (int k = j + 1; k < 4; k++) if (~value[i][k]) { std::swap(value[i][j], value[i][k]); fg = 1; break; }
 					if (~value[i][j]) for (int k = j + 1; k < 4; k++) if (~value[i][k])
+					{
 						if (value[i][j] == value[i][k]) { value[i][j] <<= 1; fg = 1; scr += value[i][j]; value[i][k] = -1; }
-						else break;
+						break;
+					}
 				}
 			}break;
 		case RIGHT:
@@ -123,8 +129,10 @@ void mainloop()
 				for (int j = 3; j >= 0; j--) {
 					if (!~value[i][j]) for (int k = j - 1; k >= 0; k--) if (~value[i][k]) { std::swap(value[i][j], value[i][k]); fg = 1; break; }
 					if (~value[i][j]) for (int k = j - 1; k >= 0; k--) if (~value[i][k])
+					{
 						if (value[i][j] == value[i][k]) { value[i][j] <<= 1; fg = 1; scr += value[i][j]; value[i][k] = -1; }
-						else break;
+						break;
+					}
 				}
 			}break;
 		default:break;
@@ -174,7 +182,7 @@ void gameover()
 	std::stringstream ss;
 	points person[11];
 	settextcolor(BLACK);
-	settextstyle(100, 0, "»ªÎÄçúçê");
+	settextstyle(100, 0, "åæ–‡ç¥ç€");
 	outtextxyf(320 - 240, 320 + TITAL / 2 - 40, "Game Over !");
 
 	CHAR my_documents[MAX_PATH];
@@ -206,9 +214,9 @@ void gameover()
 	setbkcolor(WHITE);
 	settextcolor(BLACK);
 	cleardevice();
-	settextstyle(50, 0, "»ªÎÄçúçê");
-	outtextxyf(320 - 15 * get_length(scr) - 150, 10, "ÄãµÄµÃ·ÖÊÇ£º%d", scr);
-	outtextxyf(320 - 190, 60, "ÇëÊäÈëÄãµÄÃû×Ö£º");
+	settextstyle(50, 0, "åæ–‡ç¥ç€");
+	outtextxyf(320 - 15 * get_length(scr) - 150, 10, "ä½ çš„å¾—åˆ†æ˜¯ï¼š%d", scr);
+	outtextxyf(320 - 190, 60, "è¯·è¾“å…¥ä½ çš„åå­—ï¼š");
 	int len = 0;
 	while (1) {
 		char ch;
@@ -224,26 +232,26 @@ void gameover()
 			person[cnt].name[len] = '\000';
 		}
 		cleardevice();
-		settextstyle(50, 0, "»ªÎÄçúçê");
-		outtextxyf(320 - 15 * get_length(scr) - 150, 10, "ÄãµÄµÃ·ÖÊÇ£º%d", scr);
-		outtextxyf(320 - 190, 60, "ÇëÊäÈëÄãµÄÃû×Ö£º");
-		settextstyle(50, 0, "ĞÂËÎÌå");
+		settextstyle(50, 0, "åæ–‡ç¥ç€");
+		outtextxyf(320 - 15 * get_length(scr) - 150, 10, "ä½ çš„å¾—åˆ†æ˜¯ï¼š%d", scr);
+		outtextxyf(320 - 190, 60, "è¯·è¾“å…¥ä½ çš„åå­—ï¼š");
+		settextstyle(50, 0, "æ–°å®‹ä½“");
 		outtextxyf(320 - len * 15, 120, "%s", person[cnt].name);
 	}
 
 	if (person[cnt].name[0] == '\000')
 		for (int i = 0; i < 7; i++)
-			person[cnt].name[i] = "Î´ÃüÃû"[i];
+			person[cnt].name[i] = "æœªå‘½å"[i];
 	person[cnt].score = scr;
 	person[cnt].flag = 1;
 	cnt++;
 	std::sort(person, person + cnt);
 
 	cleardevice();
-	settextstyle(50, 0, "ĞÂËÎÌå");
-	outtextxyf(320 - 60, 10, "ÅÅÃû");
+	settextstyle(50, 0, "æ–°å®‹ä½“");
+	outtextxyf(320 - 60, 10, "æ’å");
 	char rnk[12][5] = { "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th" };
-	settextstyle(30, 0, "»ªÎÄçúçê");
+	settextstyle(30, 0, "åæ–‡ç¥ç€");
 	for (int i = 0; i < cnt && i < 10; i++) {
 		if (person[i].flag) settextcolor(RED);
 		else settextcolor(BLACK);
@@ -258,6 +266,6 @@ void gameover()
 }
 
 void my_exit() {
-	int result = MessageBox(NULL, "ÄãÕæµÄÒªÍË³öÂğ£¿\n£¨¾¯¸æ£ºÄãµÄ½ø¶È½«²»»á±»±£´æ£©", "2048", MB_YESNO | MB_ICONWARNING | MB_SYSTEMMODAL);
+	int result = MessageBox(NULL, "ä½ çœŸçš„è¦é€€å‡ºå—ï¼Ÿ\nï¼ˆè­¦å‘Šï¼šä½ çš„è¿›åº¦å°†ä¸ä¼šè¢«ä¿å­˜ï¼‰", "2048", MB_YESNO | MB_ICONWARNING | MB_SYSTEMMODAL);
 	if (result == IDYES) exit(0);
 }
