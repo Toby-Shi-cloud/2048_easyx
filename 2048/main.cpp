@@ -1,5 +1,4 @@
-﻿#pragma _CRT_SECURE_NO_WARNINGS
-#include "Resource.h"
+﻿#include "Resource.h"
 
 //全局变量的声明 
 int value[4][4];//每个方格中的值 
