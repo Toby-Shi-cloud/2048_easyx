@@ -29,7 +29,7 @@ void outtextxyf(int x, int y, LPCTSTR format, ...)
 	outtextxy(x, y, str);
 }
 
-void color_test()
+void color_test(void)
 {
 	initgraph(640, 480);
 	setbkmode(0);
@@ -42,7 +42,7 @@ void color_test()
 		fillrectangle(i % 4 * 160, i / 4 * 160, i % 4 * 160 + 160, i / 4 * 160 + 160);
 		outtextxyf(i % 4 * 160 + 80 - 15 * get_length(2 << i), i / 4 * 160 + 60, "%d", 2 << i);
 	}
-	_getch();
+	getmessage(EX_CHAR);
 	closegraph();
 }
 
@@ -55,4 +55,12 @@ int get_length(int number)
 		number /= 10;
 	}
 	return len;
+}
+
+void getkeymessage(ExMessage* msg)
+{
+	while (true) {
+		while (!peekmessage(msg, EX_KEY));
+		if (!msg->prevdown) break;
+	}
 }

@@ -1,14 +1,12 @@
 #pragma once
-#include <graphics.h>
-#include <cstdio>
-#include <conio.h>
-#include <cstdlib>
-#include <algorithm>
-#include <ShlObj.h>
-#include <sstream>
-#include <direct.h>
 #include <io.h>
+#include <cstdlib>
+#include <sstream>
 #include <fstream>
+#include <direct.h>
+#include <ShlObj.h>
+#include <algorithm>
+#include <graphics.h>
 
 //这个头文件用来定义一些程序所需的宏和常量
 
@@ -30,14 +28,11 @@ COLORREF get_color(int number);
 
 void outtextxyf(int x, int y, LPCTSTR format, ...);
 
-void color_test();
+void color_test(void);
 
 int get_length(int number);
 
-#define UP 72
-#define DOWN 80
-#define LEFT 75
-#define RIGHT 77
+void getkeymessage(ExMessage* msg);
 
 #define TITAL 50
 

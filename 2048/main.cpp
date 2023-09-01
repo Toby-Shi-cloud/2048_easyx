@@ -13,7 +13,7 @@ void gameover();
 bool check();
 void my_exit();
 
-int main()
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 //	color_test();
 
@@ -29,7 +29,6 @@ int main()
 
 		settextstyle(30, 0, "新宋体");
 		outtextxy(320 - 8 * 14, 420, "按下任意键退出");
-		_getch();
 
 		INT result = MessageBox(NULL, "再来一局？", "2048", MB_YESNO | MB_ICONINFORMATION | MB_SYSTEMMODAL);
 		if (result == IDNO) {
@@ -80,18 +79,15 @@ void print() {
 
 void mainloop()
 {
-	char ch;
 	while (1) {
-		ch = _getch();
-		while (ch != -32) {
-			if (ch == 27) my_exit();
-			ch = _getch();
-		}
-		ch = _getch();
-		if (ch == 27) my_exit();
+		ExMessage msg;
+		getkeymessage(&msg);
+		if (msg.vkcode == VK_ESCAPE) my_exit();
+		while (msg.vkcode < VK_LEFT && msg.vkcode > VK_DOWN)
+			getkeymessage(&msg);
 		bool fg = 0;
-		switch (ch) {
-		case UP:
+		switch (msg.vkcode) {
+		case VK_UP:
 			for (int j = 0; j < 4; j++) {
 				for (int i = 0; i < 4; i++) {
 					if (!~value[i][j]) for (int k = i + 1; k < 4; k++) if (~value[k][j]) { std::swap(value[i][j], value[k][j]); fg = 1; break; }
@@ -102,7 +98,7 @@ void mainloop()
 					}
 				}
 			}break;
-		case DOWN:
+		case VK_DOWN:
 			for (int j = 0; j < 4; j++) {
 				for (int i = 3; i >= 0; i--) {
 					if (!~value[i][j]) for (int k = i - 1; k >= 0; k--) if (~value[k][j]) { std::swap(value[i][j], value[k][j]); fg = 1; break; }
@@ -113,7 +109,7 @@ void mainloop()
 					}
 				}
 			}break;
-		case LEFT:
+		case VK_LEFT:
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 4; j++) {
 					if (!~value[i][j]) for (int k = j + 1; k < 4; k++) if (~value[i][k]) { std::swap(value[i][j], value[i][k]); fg = 1; break; }
@@ -124,7 +120,7 @@ void mainloop()
 					}
 				}
 			}break;
-		case RIGHT:
+		case VK_RIGHT:
 			for (int i = 0; i < 4; i++) {
 				for (int j = 3; j >= 0; j--) {
 					if (!~value[i][j]) for (int k = j - 1; k >= 0; k--) if (~value[i][k]) { std::swap(value[i][j], value[i][k]); fg = 1; break; }
@@ -220,9 +216,9 @@ void gameover()
 	int len = 0;
 	while (1) {
 		char ch;
-		ch = _getch();
-		if (ch == '\r') break;
-		if (ch == '\b') {
+		ch = getmessage(EX_CHAR).ch;
+		if (ch == '\r' || ch == '\n') break;
+		if (ch == '\b' || ch == 127) {
 			if (!len) continue;
 			len--;
 			person[cnt].name[len] = '\000';
